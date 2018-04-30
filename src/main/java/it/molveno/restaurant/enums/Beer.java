@@ -1,5 +1,9 @@
 package it.molveno.restaurant.enums;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 public class Beer {
 
     private BeerSize size;
@@ -11,8 +15,8 @@ public class Beer {
     public static void main(String[] args) {
         Beer beer = new Beer(BeerSize.BIG);
         Beer beer2 = new Beer(BeerSize.HUMONGOUS);
-        System.out.println(beer.getSize().getCl());
-        System.out.println(beer2.getSize().getCl());
+        System.out.println(beer.getSize());
+        System.out.println(beer2.getSize());
     }
 
     public BeerSize getSize() {
@@ -34,5 +38,19 @@ public class Beer {
         public double getCl() {
             return this.cc;
         }
+
+        @Override
+        public String toString() {
+            return super.toString() + " (" + this.cc + " cc)";
+        }
     }
+}
+
+/**
+ * Zo kun je zorgen dat een enum als string opgeslagen wordt in de database
+ */
+@Entity
+class BeerDrinker {
+    @Enumerated(EnumType.STRING)
+    private Beer.BeerSize beerSize;
 }
